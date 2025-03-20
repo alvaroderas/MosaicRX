@@ -5,6 +5,17 @@ from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 
+
+# Classes to operate our searches
+import DataLoader
+import Vectorizer
+
+
+
+
+
+
+
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
 os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
@@ -14,15 +25,25 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Specify the path to the JSON file relative to the current script
 json_file_path = os.path.join(current_directory, 'init.json')
+json_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'init.json')
 
-# Assuming your JSON data is stored in a file named 'init.json'
-with open(json_file_path, 'r') as file:
-    data = json.load(file)
-    episodes_df = pd.DataFrame(data['episodes'])
-    reviews_df = pd.DataFrame(data['reviews'])
+
 
 app = Flask(__name__)
 CORS(app)
+
+
+
+# Start up our DataLoader class
+data_loader = DataLoader(json_file=json_file_path, batch_size=0)
+
+# Same with vectorizer
+params = Vectorizer(params)
+
+
+
+
+
 
 # Sample search using json with pandas
 def json_search(query):
