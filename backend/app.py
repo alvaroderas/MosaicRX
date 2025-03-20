@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Classes to operate our searches
 import DataLoader
-import Vectorizer
+import MosaicRX.backend.Embeddings as Embeddings
 
 
 # ROOT_PATH for linking with all your files. 
