@@ -7,6 +7,12 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+
+# Classes to operate our searches
+import DataLoader
+import Vectorizer
+
+
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
 os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
@@ -16,6 +22,8 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Specify the path to the JSON file relative to the current script
 json_file_path = os.path.join(current_directory, 'init.json')
+json_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'init.json')
+
 
 # Assuming your JSON data is stored in a file named 'init.json'
 with open(json_file_path, 'r') as file:
@@ -28,7 +36,7 @@ CORS(app)
 vectorizer = TfidfVectorizer(stop_words='english')
 tf_idf_mat = vectorizer.fit_transform(df['Uses'].fillna(""))
 
-def recommend_medicines(query, top_n=5):
+def recommend_medicines(query, top_n=10):
     """
     Given a query string (e.g., symptoms), compute cosine similarities 
     between the query and the "Uses" column of the medicine data, and return the top_n matches.
