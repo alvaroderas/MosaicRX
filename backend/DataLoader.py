@@ -16,4 +16,6 @@ class DataLoader:
         Loads the JSON file into a list of dictionaries and extracts headers.
         """
         return json.load(open(self.json_file, 'r'))
+    
+
 
