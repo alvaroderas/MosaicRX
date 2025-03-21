@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Classes to operate our searches
 # import DataLoader
-# import Vectorizer
+# import MosaicRX.backend.Embeddings as Embeddings
 
 
 # ROOT_PATH for linking with all your files. 
@@ -36,8 +36,8 @@ tf_idf_mat = vectorizer.fit_transform(df['uses'].fillna(""))
 
 def recommend_medicines(query, top_n=10):
     """
-    Given a query string (e.g., symptoms), compute cosine similarities 
-    between the query and the "Uses" column of the medicine data, and return the top_n matches.
+    Given a query (symptoms or feelings), compute cosine similarities 
+    between the query and the uses column of the medicine data, and return the top_n matches.
     """
     query_vec = vectorizer.transform([query])
     sims = cosine_similarity(query_vec, tf_idf_mat).flatten()

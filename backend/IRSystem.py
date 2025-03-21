@@ -1,8 +1,5 @@
-
-
-
 class InformationRetrievalSystem:
-    def __init__(self, vectorizer, ):
+    def __init__(self):
         pass
 
 
