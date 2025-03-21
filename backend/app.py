@@ -9,8 +9,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 # Classes to operate our searches
-import DataLoader
-import Vectorizer
+# import DataLoader
+# import Vectorizer
 
 
 # ROOT_PATH for linking with all your files. 
@@ -22,8 +22,6 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Specify the path to the JSON file relative to the current script
 json_file_path = os.path.join(current_directory, 'init.json')
-json_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'init.json')
-
 
 # Assuming your JSON data is stored in a file named 'init.json'
 with open(json_file_path, 'r') as file:
@@ -34,7 +32,7 @@ app = Flask(__name__)
 CORS(app)
 
 vectorizer = TfidfVectorizer(stop_words='english')
-tf_idf_mat = vectorizer.fit_transform(df['Uses'].fillna(""))
+tf_idf_mat = vectorizer.fit_transform(df['uses'].fillna(""))
 
 def recommend_medicines(query, top_n=10):
     """
