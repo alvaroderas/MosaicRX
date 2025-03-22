@@ -1,12 +1,14 @@
 import json
 import os
 from flask import Flask, render_template, request, jsonify
+from
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
-from flask_cors import CORS
-from DataLoader import DataLoader
-from Embeddings import Embeddings
-from Recommender import Recommender
+
+
+# Classes to operate our searches
+# import DataLoader
+# import Vectorizer
 
 
 # ROOT_PATH for linking with all your files. 
@@ -34,6 +36,23 @@ embeddings = Embeddings(dataloader)
 recommender = Recommender(dataloader, embeddings)
 
 
+vectorizer = TfidfVectorizer(stop_words='english')
+tf_idf_mat = vectorizer.fit_transform(df['uses'].fillna(""))
+
+def recommend_medicines(query, top_n=10):
+    """
+    Given a query string (e.g., symptoms), compute cosine similarities 
+    between the query and the "Uses" column of the medicine data, and return the top_n matches.
+    """
+    query_vec = vectorizer.transform([query])
+    sims = cosine_similarity(query_vec, tf_idf_mat).flatten()
+    
+    top_indices = sims.argsort()[::-1][:top_n]
+    
+    recommendations = df.iloc[top_indices].copy()
+    recommendations['similarity'] = sims[top_indices]
+    
+    return recommendations
 
 @app.route("/")
 def home():
