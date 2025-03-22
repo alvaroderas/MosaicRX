@@ -11,15 +11,15 @@ class Embeddings(TfidfVectorizer):
         self.term_document_matrix = self.__generate_term_doc_matrix__()
    
     def __generate_term_doc_matrix__(self):
-        fields = self.dataloader.dataset_headers
-        isvalid_field = lambda field: field != "Image URL" and field != "Excellent Review %" and field != "Average Review %" and field != "Poor Review %"
+        fields = self.dataloader.dataset_headers()
         
         dataset = []
-        for data_instance in self.dataloader.dataset:
+        data_instances = self.dataloader.dataset()
+        for data_instance in data_instances:
             current_doc = []
             for field in fields:
-                if isvalid_field(field):
-                    current_doc.append(data_instance.get(field))
+                
+                current_doc.append(data_instance.get(field))
             current_doc = "".join(current_doc)
             dataset.append(current_doc)
         return self.fit_transform(dataset)
