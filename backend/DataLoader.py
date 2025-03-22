@@ -17,7 +17,6 @@ class DataLoader:
         """
         return json.load(open(self._json_file, 'r'))
 
-  
     def json_file(self):
         return self._json_file
 
