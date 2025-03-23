@@ -50,7 +50,7 @@
 
 .input-box{
     border-radius: 50px;
-    border:1px solid black;
+    border:2px solid black;
     display: flex;
     align-items: center;
     margin-top: 10px;
@@ -88,4 +88,46 @@
 
 .episode-desc{
     font-family: 'Montserrat', sans-serif;
+}
+
+.custom-line {
+    border: none;
+    border-top: 1.5px solid #9b9b9b; 
+    margin: 10px 0;
+    width: 90%;
+}
+
+.medicine-name {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 20px; 
+    font-weight: bold; 
+    color: #4285F4; 
+}
+
+.full-body-container {
+    padding-top: 50px; 
+}
+
+.disclaimer {
+    position: fixed; /* Keeps the disclaimer at the top of the screen */
+    top: 0;
+    left: 0;
+    width: 100%; /* Makes it span the full width of the screen */
+    background-color: #c1c1c1; /* Light red background for visibility */
+    color: #3a3a3a; /* Dark red text for contrast */
+    text-align: center; /* Centers the text */
+    padding: 1px; /* Adds some spacing around the text */
+    font-family: 'Roboto', sans-serif; /* Matches the font style */
+    font-size: 14px; /* Adjust the font size as needed */
+    z-index: 1000; /* Ensures it stays above other elements */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+
+.subtitle {
+    font-family: 'Montserrat', sans-serif; /* Match your design */
+    font-size: 28px; /* Adjust the size as needed */
+    font-weight: 2000; /* Optional: Make it bold */
+    color: #121212; /* Adjust the color */
+    text-align: center; /* Center the text */
+    margin: 10px 0; /* Add spacing above and below */
 }

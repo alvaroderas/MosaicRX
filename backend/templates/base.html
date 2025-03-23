@@ -8,17 +8,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div class="disclaimer">
+      <p>Disclaimer: The information provided is for educational purposes only and not medical advice.</p>
+    </div>
     <div class="full-body-container">
       <div class="top-text">
         <div class="google-colors">
-          <h1 id="google-4">4</h1>
-          <h1 id="google-3">3</h1>
-          <h1 id="google-0-1">0</h1>
-          <h1 id="google-0-2">0</h1>
+          <h1 id="google-4">M</h1>
+          <h1 id="google-4">o</h1>
+          <h1 id="google-3">s</h1>
+          <h1 id="google-3">a</h1>
+          <h1 id="google-0-1">i</h1>
+          <h1 id="google-0-1">c</h1>
+          <h1 id="google-0-2">R</h1>
+          <h1 id="google-0-2">X</h1>
         </div>
+        <h2 class="subtitle">Find Medications For You</h2> 
         <div class="input-box" onclick="sendFocus()">
           <img src="{{ url_for('static', filename='images/mag.png') }}" alt="search icon" />
-          <input placeholder="Enter any symptoms" id="filter-text-val" onkeyup="filterText()">
+          <input placeholder="Enter any symptoms, conditions, diagnosis etc." id="filter-text-val" onkeyup="filterText()">
         </div>
       </div>
       <div id="answer-box">
@@ -28,21 +36,22 @@
     <script>
       // Template to display each medicine result
       function answerBoxTemplate(name, uses, similarity, user_rating, price_info){
-        let price_display = "Price: N/A";
+        let price_display = "<strong>Price:</strong> N/A";
         if (price_info && price_info.price && price_info.quantity){
-             price_display = `Price: ${price_info.price} ${price_info.quantity}`;
+             price_display = `<strong>Price:</strong> ${price_info.price} ${price_info.quantity}`;
         }
-        let user_display = "User Rating: N/A";
+        let user_display = "<strong>User Rating: N/A</strong>";
         if (user_rating) {
-            user_display = `User Rating: ${user_rating}`;
+            user_display = `<strong>User Rating:</strong> ${user_rating}`;
         }
 
           return `<div class="medicine-result">
               <h3 class="medicine-name">${name}</h3>
-              <p class="medicine-uses">Uses: ${uses}</p>
-              <p class="medicine-similarity">Similarity Score: ${(similarity * 100).toFixed(2)}%</p>
+              <p class="medicine-uses"><strong>Uses:</strong> ${uses}</p>
+              <p class="medicine-similarity"><strong>Similarity Score:</strong> ${(similarity * 100).toFixed(2)}%</p>
               <p class="medicine-rating">${user_display}</p>
               <p class="medicine-price">${price_display}</p>
+              <hr class="custom-line"> <!-- Add a class to the horizontal line -->
           </div>`;
       }
 
