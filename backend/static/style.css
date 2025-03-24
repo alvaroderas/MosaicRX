@@ -36,8 +36,12 @@
     color:#DB4437;
 }
 
-#theme-color{
-    color:#37489b;
+#theme-color {
+    font-size: 90px; 
+    font-weight: bold; 
+    color: #37489b; 
+    text-align: center; 
+    margin: 10px 0; 
 }
 
 .google-colors{
