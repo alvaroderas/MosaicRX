@@ -37,11 +37,11 @@
 }
 
 #theme-color {
-    font-size: 90px; 
+    font-size: 100px; 
     font-weight: bold; 
     color: #37489b; 
     text-align: center; 
-    margin: 10px 0; 
+    margin: 15px 0; 
 }
 
 .google-colors{
@@ -124,7 +124,7 @@
     background-color: #c1c1c1; 
     color: #3a3a3a; 
     text-align: center; 
-    padding: 1px; 
+    padding: 0.5px; 
     font-family: 'Roboto', sans-serif; 
     font-size: 14px; 
     z-index: 1000; 
