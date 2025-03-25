@@ -1,29 +1,15 @@
 from sklearn.metrics.pairwise import cosine_similarity
 
 class Recommender:
-    def __init__(self,  embeddings):
+    def __init__(self, embeddings, data_loader):
         self.embeddings = embeddings
-        self.data_loader = embeddings.data_loader
-        self.term_document_matrix = self.embeddings.__generate_term_doc_matrix__()
-    
+        self.data_loader = data_loader
 
-    def __optimize_query__(self, query):
-        return query
-
-    def __recommendations__(self, query_vector, top_k):
-        sims = cosine_similarity(query_vector, self.term_document_matrix).flatten()
-        top_indices = sims.argsort()[::-1][:top_k]
-    
-        recommendations = {}
-        for idx in top_indices:
-            recommendations[idx] = {
-                "data": self.data_loader.retrieve_document(doc_id=idx),
-                "similarity": sims[idx]
-            }
-
+    def generate_recommendations(self, query, k):
+        query_vector = self.embeddings.transform([query])
+        sims = cosine_similarity(query_vector, self.embeddings.get_term_document_matrix()).flatten()
+        top_indices = sims.argsort()[::-1][0:k]
+        recommendations = self.data_loader.retrieve_documents(top_indices)
+        recommendations['similarity'] = sims[top_indices]
         return recommendations
 
-    def search(self, query, k=10):
-        q_vector = self.embeddings.transform(query)
-        q_vector = self.__optimize_query__(q_vector)
-        return self.__recommendations__(q_vector, k)

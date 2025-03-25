@@ -1,5 +1,11 @@
 import pandas as pd
-df = pd.read_csv("Medicine_Details.csv")
-open('init.json', 'w').write(df.to_json(orient='records'))
+import json
+
+
+with open('init.json', 'r') as f:
+    data = json.load(f)
+
+df = pd.DataFrame(data)
 DATASET_HEADERS = df.columns.tolist()
 
+print(DATASET_HEADERS)

@@ -1,9 +1,9 @@
 import os
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-import Embeddings
-import DataLoader
-import Recommender
+from Embeddings import *
+from DataLoader import *
+from Recommender import *
 
 
 # ROOT_PATH for linking with all your files. 
@@ -20,7 +20,9 @@ app = Flask(__name__)
 CORS(app)
 
 
-recommendation_system = Recommender(embeddings=(Embeddings(data_loader=DataLoader(json_file=json_file_path))))
+data_loader = DataLoader(json_file=json_file_path)
+embeddings = Embeddings(documents=data_loader.dataset())
+recommendation_system = Recommender(embeddings=embeddings, data_loader=data_loader)
 
 @app.route("/")
 def home():
@@ -31,7 +33,8 @@ def recommend_search():
     query = request.args.get("query", "")
     if not query:
         return jsonify({"error": "No query provided"}), 400
-    recommendations = recommendation_system.search(query)
+
+    recommendations = recommendation_system.generate_recommendations(query,k=10)
     return jsonify(recommendations)
    
 if 'DB_NAME' not in os.environ:
