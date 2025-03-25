@@ -18,8 +18,7 @@ class Embeddings(TfidfVectorizer):
         for data_instance in data_instances:
             current_doc = []
             for field in fields:
-                
-                current_doc.append(data_instance.get(field))
+                current_doc.append(str(data_instance.get(field)))
             current_doc = "".join(current_doc)
             dataset.append(current_doc)
         return self.fit_transform(dataset)
