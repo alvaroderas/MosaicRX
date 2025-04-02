@@ -2,17 +2,9 @@ from sklearn.cluster import KMeans
 import numpy as np
 
 class Clustering(KMeans):
-    def __init__(self,document_embeddings, n_clusters=15, init='random', n_init=10, max_iter=500, tol=1e-4, random_state=0):
-        super().__init__(
-            n_clusters=n_clusters,
-            init=init,
-            n_init=n_init,
-            max_iter=max_iter,
-            tol=tol,
-            random_state=random_state
-        )
+    def __init__(self,document_embeddings):
+        super().__init__(n_clusters=15,init='random',n_init=10, max_iter=500,tol=1e-4,random_state=43)
         self.document_embeddings = document_embeddings
-
         self.fit(document_embeddings)
         self.clusters = self.cluster_centers_
         self.centroids = {idx: centroid for idx, centroid in enumerate(self.cluster_centers_)}
