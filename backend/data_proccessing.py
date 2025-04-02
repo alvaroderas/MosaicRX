@@ -1,11 +1,18 @@
-import pandas as pd
 import json
+import pandas as pd
+
+predicate = lambda n: n.get("user_rating") != "" and n.get("user_reviews") != []
 
 
 with open('init.json', 'r') as f:
-    data = json.load(f)
+    dataset = json.load(f)
+    filtered_dataset = list(filter(predicate, dataset))
 
-df = pd.DataFrame(data)
+with open('inittest.json', 'w') as f:
+    json.dump(filtered_dataset, f, indent=4)
+
+
+df = pd.DataFrame(dataset)
 DATASET_HEADERS = df.columns.tolist()
 
-print(DATASET_HEADERS)
+
