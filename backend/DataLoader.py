@@ -1,5 +1,5 @@
 import json
-from DataProcessing import DATASET_HEADERS
+from data_proccessing   import DATASET_HEADERS
 
 class DataLoader:
     def __init__(self, json_file: str, batch_size: int = 32):
