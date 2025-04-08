@@ -22,8 +22,10 @@ CORS(app)
 
 data_loader = DataLoader(json_file=json_file_path)
 documents = data_loader.dataset()
+
 embeddings = Embeddings(documents=documents)
 clusterer = Clustering(document_embeddings=embeddings.get_document_embeddings())
+
 recommendation_system = Recommender(embeddings=embeddings, data_loader=data_loader, clusterer=clusterer)
 
 @app.route("/")

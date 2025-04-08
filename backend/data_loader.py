@@ -21,4 +21,5 @@ class DataLoader:
         return self._dataset_headers
 
     def retrieve_documents(self, doc_ids):
-        return self.dataset().iloc[doc_ids].copy()
+        documents = self.dataset().iloc[doc_ids].copy()
+        return documents
