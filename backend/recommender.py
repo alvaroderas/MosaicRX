@@ -11,7 +11,11 @@ class Recommender:
         query_vector = self.clusterer.rocchio(q0=query_vector, alpha=98/100, beta=1/100, gamma=1/100)
         A = self.embeddings.document_embeddings
         sims = cosine_similarity(query_vector, A).flatten()
-        top_indices = sims.argsort()[::-1][0:k]
+        valid_indices = [i for i, sim in enumerate(sims) if sim > 0]
+        if not valid_indices:
+            return self.data_loader.retrieve_documents([])
+        valid_indices_sorted = sorted(valid_indices, key=lambda i: sims[i], reverse=True)
+        top_indices = valid_indices_sorted[:min(len(valid_indices_sorted), k)]
         recommendations = self.data_loader.retrieve_documents(top_indices)
         recommendations['similarity'] = sims[top_indices]
         return recommendations
