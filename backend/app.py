@@ -39,6 +39,7 @@ def recommend_search():
         return jsonify({"error": "No query provided"}), 400
 
     recommendations = recommendation_system.generate_recommendations(query, k=10)
+    recommendations = recommendations.to_dict(orient='records')
     return jsonify(recommendations)
    
 if 'DB_NAME' not in os.environ:
