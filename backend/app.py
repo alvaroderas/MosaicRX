@@ -42,7 +42,7 @@ def recommend_search():
 
     recommendations = recommendation_system.generate_recommendations(
         query,
-        k=10,
+        k=15,
         price_filter=price_filter,
         rating_filter=rating_filter,
         allergy_filter=allergy_filter
