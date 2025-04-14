@@ -6,10 +6,8 @@ from data_loader import *
 from recommender import *
 from clustering import *
 
-
-# ROOT_PATH for linking with all your files. 
-# Feel free to use a config.py or settings.py with a global export variable
-os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
+# ROOT_PATH for linking with all your files.
+os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
 
 # Get the directory of the current script
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -38,9 +36,20 @@ def recommend_search():
     if not query:
         return jsonify({"error": "No query provided"}), 400
 
-    recommendations = recommendation_system.generate_recommendations(query, k=10)
+    price_filter = request.args.get("price", None)
+    rating_filter = request.args.get("rating", None)
+    allergy_filter = request.args.get("allergies", None)
+
+    recommendations = recommendation_system.generate_recommendations(
+        query,
+        k=10,
+        price_filter=price_filter,
+        rating_filter=rating_filter,
+        allergy_filter=allergy_filter
+    )
+    
     recommendations = recommendations.to_dict(orient='records')
     return jsonify(recommendations)
    
 if 'DB_NAME' not in os.environ:
-    app.run(debug=True,host="0.0.0.0",port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)

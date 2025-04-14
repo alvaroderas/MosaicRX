@@ -7,12 +7,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
-
   </head>
   <body>
+    <div class="filter-container">
+      <div class="filters">
+          <div class="filter-item">
+            <label for="price-filter">Sort by Price:</label>
+            <select id="price-filter" onchange="filterText()">
+              <option value="">None</option>
+              <option value="low">Low to High</option>
+              <option value="high">High to Low</option>
+            </select>
+          </div>
+          
+          <div class="filter-item">
+            <label for="rating-filter">Sort by User Rating:</label>
+            <select id="rating-filter" onchange="filterText()">
+              <option value="">None</option>
+              <option value="high">High to Low</option>
+              <option value="low">Low to High</option>
+            </select>
+          </div>
+          
+          <div class="filter-item">
+            <label for="allergy-filter">Filter Allergies/Conditions:</label>
+            <input type="text" id="allergy-filter" placeholder="e.g. penicillin" onkeyup="filterText()">
+          </div>
+      </div>
+    </div>
+    
     <div class="disclaimer">
       <p>Disclaimer: The information provided is for educational purposes only and not medical advice.</p>
     </div>
+    
     <div class="full-body-container">
       <div class="top-text">
         <div class="theme-color">
@@ -27,38 +54,49 @@
       <div id="answer-box">
       </div>
     </div>
-
+    
     <script>
-      // Template to display each medicine result
       function answerBoxTemplate(name, uses, similarity, user_rating, price_info){
-        let price_display = "<strong>Price:</strong> N/A";
+        let price_display = "<strong>Price:</strong> Unknown, check with a local pharmacy!";
         if (price_info && price_info.price && price_info.quantity){
-             price_display = `<strong>Price:</strong> ${price_info.price} ${price_info.quantity}`;
+          price_display = `<strong>Price:</strong> ${price_info.price} ${price_info.quantity}`;
         }
         let user_display = "<strong>User Rating: N/A</strong>";
         if (user_rating) {
-            user_display = `<strong>User Rating:</strong> ${user_rating}`;
+          user_display = `<strong>User Rating:</strong> ${user_rating}`;
         }
-
-          return `<div class="medicine-result">
-              <h3 class="medicine-name">${name}</h3>
-              <p class="medicine-uses"><strong>Uses:</strong> ${uses}</p>
-              <p class="medicine-similarity"><strong>Similarity Score:</strong> ${(similarity * 100).toFixed(2)}%</p>
-              <p class="medicine-rating">${user_display}</p>
-              <p class="medicine-price">${price_display}</p>
-              <hr class="custom-line"> <!-- Add a class to the horizontal line -->
-          </div>`;
+      
+        return `<div class="medicine-result">
+            <h3 class="medicine-name">${name}</h3>
+            <p class="medicine-uses"><strong>Uses:</strong> ${uses}</p>
+            <p class="medicine-similarity"><strong>Similarity Score:</strong> ${(similarity * 100).toFixed(2)}%</p>
+            <p class="medicine-rating">${user_display}</p>
+            <p class="medicine-price">${price_display}</p>
+            <hr class="custom-line">
+        </div>`;
       }
-
+      
       function sendFocus(){
           document.getElementById('filter-text-val').focus();
       }
-
+      
       function filterText(){
           document.getElementById("answer-box").innerHTML = "";
           const queryVal = document.getElementById("filter-text-val").value;
-          console.log("Query:", queryVal);
-          fetch("/recommend?" + new URLSearchParams({ query: queryVal }).toString())
+          const priceFilter = document.getElementById("price-filter").value;
+          const ratingFilter = document.getElementById("rating-filter").value;
+          const allergyFilter = document.getElementById("allergy-filter").value;
+      
+          const params = new URLSearchParams({
+              query: queryVal,
+              price: priceFilter,
+              rating: ratingFilter,
+              allergies: allergyFilter
+          });
+      
+          console.log("Query Params:", params.toString());
+      
+          fetch("/recommend?" + params.toString())
             .then(response => response.json())
             .then(data => {
                 data.forEach(row => {

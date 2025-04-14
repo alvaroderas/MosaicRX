@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     font-size: 48px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
 }
 
 .google-colors h1{
@@ -92,11 +92,11 @@
 }
 
 .episode-title{
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Roboto', 'Kanit', sans-serif;
 }
 
 .episode-desc{
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', 'Montserrat', sans-serif;
 }
 
 .custom-line {
@@ -139,4 +139,59 @@
     color: #121212; 
     text-align: center; 
     margin: 10px 0; 
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.filter-container {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 2000;
+    pointer-events: auto;
+}
+
+
+.filters {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters .filter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.filters label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.filters select,
+.filters input {
+    padding: 5px 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 150px;
+}
+
+.theme-color h1 {
+    margin: 0;
+    color: #4a90e2;
 }
