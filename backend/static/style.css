@@ -1,120 +1,58 @@
-.full-body-container{
-    position: absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    width:100%;
-    height:100%;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-}
-
-#theme-color {
-    font-family: 'Baloo 2', cursive;
-    font-size: 100px; 
-    font-weight: 900; 
-    color: #F05A24; 
-    text-align: center; 
-    margin: 15px 0 0px 0; 
-}
-
-.google-colors{
-    display: flex;
-    align-items: center;
-    font-size: 48px;
-    font-family: 'Roboto', 'Open Sans', sans-serif;
-}
-
-.google-colors h1{
-    margin-bottom: 0;
-    margin-right: 3px;
-}
-
-.input-box img{
-    height: 20px;
-    width:20px;
-}
-
-.top-text{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-
-
-#answer-box{
-    width: 600px;
-    margin-top:10px; 
-}
-
-.episode-title{
-    font-family: 'Roboto', 'Kanit', sans-serif;
-}
-
-.episode-desc{
-    font-family: 'Roboto', 'Montserrat', sans-serif;
-}
-
-.custom-line {
-    border: none;
-    height: 4px;
-    background: linear-gradient(to right, #F05A24, #f0d93f, #F05A24);  
-    border-radius: 3px; 
-    margin: 10px 0;
-    width: 100%;
-}
-
-.medicine-name {
-    font-family: 'Baloo 2', cursive;
-    font-size: 23px; 
-    font-weight: bold; 
-    color: #F05A24; 
-    border: 3px solid #fcc435;
-    border-radius: 8px;
-    padding: 4px;
-    background-color: #FCD46C;
-    display: inline-block;
-    margin-bottom: 2px;
-}
-
-.full-body-container {
-    padding-top: 50px; 
-}
-
-.disclaimer {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%; 
-    background-color: #e1e1e1; 
-    color: #3a3a3a; 
-    text-align: center; 
-    padding: 0.5px; 
-    font-family: 'Roboto', sans-serif; 
-    font-size: 14px; 
-    z-index: 1000; 
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
-}
-
-.subtitle {
-    font-family: 'Baloo 2', cursive; 
-    font-size: 42px; 
-    font-weight: 2000; 
-    color: #F1D648; 
-    text-align: center; 
-    margin: 10px 0; 
-}
-
 body {
     font-family: 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #FFF7E9; 
+    background-color: #FFF7E9;
+}
+
+.full-body-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px;
+}
+
+#theme-color {
+    font-family: 'Baloo 2', cursive;
+    font-size: 100px;
+    font-weight: 900;
+    color: #F05A24;
+    text-align: center;
+    margin: 15px 0 0 0;
+}
+
+.separator-line {
+    display: block;
+    margin: 2px auto;
+    width: 80%;
+    max-width: 900px;
+    height: auto;
+}
+
+.subtitle {
+    font-family: 'Baloo 2', cursive;
+    font-size: 42px;
+    font-weight: 2000;
+    color: #F1D648;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.disclaimer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #e1e1e1;
+    color: #3a3a3a;
+    text-align: center;
+    padding: 0.5px;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
 }
 
 .filter-container {
@@ -152,6 +90,7 @@ body {
 
 .filters select,
 .filters input {
+    box-sizing: border-box;
     padding: 5px 8px; 
     font-family: 'Baloo 2', cursive;
     font-size: 14px;
@@ -178,106 +117,21 @@ body {
     border-color: #F1D648; 
 }
 
-.image-container {
-    position: fixed; 
-    top: 100px;
-    left: 40px; 
-    z-index: 2000; 
-}
-
-.image-container img {
-    height: 220px; 
-    width: auto;
-}
-
-#overlay {
-    position:fixed;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    background:rgba(0,0,0,.6);
-    z-index:2000;
-}
-  
-#modal {
-    max-width:720px;
-    width:90%;
-    max-height:85vh;
-    overflow-y:auto;
-    background:#fff;
-    border-radius:8px;
-    padding:24px;
-    font-family:'Quicksand',sans-serif;
-    box-shadow:0 4px 18px rgba(0,0,0,.35);
-    position:relative;
-}
-  
-#close-btn {
-    position:absolute;
-    top:10px;
-    right:16px;
-    font-size:38px;
-    background:none;
-    border:none;
-    cursor:pointer;
-    color:#F05A24;
-}
-  
-.learn-btn {
-    margin-top:8px;
-    padding:4px 14px;
-    border-radius:4px;
-    border:1px solid #F05A24;
-    background:#ffaaa9;
-    color:#FFF;
-    cursor:pointer;
-    font-family:'Quicksand',sans-serif;
-}
-  
-#how-it-works {
-    position:fixed;
-    bottom:17px;
-    left:22px;
-    font-size:24px;
-    font-family: 'Baloo 2', cursive;
-    font-weight:bold;
-    color:#F05A24;
-    cursor:pointer;
-    z-index:900;
-}
-  
-.tooltip {
-    position:absolute;
-    max-width:260px;
-    font:14px/1.35 'Quicksand',sans-serif;
-    background:#fff;
-    border:1px solid #888;
-    border-radius:6px;
-    padding:8px 10px;
-    box-shadow:0 2px 6px rgba(0,0,0,.25);
-    z-index:2100;
-}
-  
-.full-body-container {
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    padding-top:50px;
-}
-  
 .input-box {
     border-radius: 50px;
     border: 3px solid #F05A24;
-    background-color: rgba(245, 93, 38, 0.18); 
+    background-color: rgba(245,93,38,0.18);
     display: flex;
     align-items: center;
-
     padding: 12px;
+    margin-top: 10px;
     width: 600px;
+}
+
+.input-box img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
 .input-box input {
@@ -286,27 +140,125 @@ body {
     font-size: 16px;
     border: none;
     outline: none;
-    background-color: rgba(240, 90, 36, 0.01); 
-    color: #333; 
+    background-color: rgba(240,90,36,0.01);
+    color: #333;
 }
 
 .input-box input::placeholder {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 16px;
-    color: #333;
     font-style: italic;
-    background-color: transparent !important; 
-}
-  
-#search-btn {
-    cursor:pointer;
+    color: #333;
 }
 
-.separator-line {
-    display: block;
-    margin: 2px auto; 
-    width: 80%; 
-    max-width: 900px; 
-    height: auto;
+#answer-box {
+    width: 600px;
+    margin-top: 10px;
+}
+
+.medicine-name {
+    font-family: 'Baloo 2', cursive;
+    font-size: 23px;
+    font-weight: bold;
+    color: #F05A24;
+    border: 3px solid #fcc435;
+    border-radius: 8px;
+    padding: 4px;
+    background-color: #FCD46C;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.custom-line {
+    border: none;
+    height: 4px;
+    background: linear-gradient(to right,#F05A24,#f0d93f,#F05A24);
+    border-radius: 3px;
+    margin: 10px 0;
+    width: 100%;
 }
   
+.image-container {
+    position: fixed;
+    top: 100px;
+    left: 40px;
+    z-index: 2000;
+}
+
+.image-container img {
+    height: 220px;
+    width: auto;
+}
+  
+.learn-btn {
+    margin-top: 8px;
+    padding: 4px 14px;
+    border-radius: 4px;
+    border: 1px solid #F05A24;
+    background: #ffaaa9;
+    color: #FFF;
+    cursor: pointer;
+    font-family: 'Quicksand',sans-serif;
+}
+  
+#overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+}
+  
+#modal {
+    max-width: 720px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    font-family: 'Quicksand',sans-serif;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    position: relative;
+}
+  
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 38px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #F05A24;
+}
+  
+#how-it-works {
+    position: fixed;
+    bottom: 17px;
+    left: 22px;
+    font-size: 24px;
+    font-family: 'Baloo 2', cursive;
+    font-weight: bold;
+    color: #F05A24;
+    cursor: pointer;
+    z-index: 900;
+}
+  
+.tooltip {
+    position: absolute;
+    max-width: 260px;
+    font: 14px/1.35 'Quicksand',sans-serif;
+    background: #fff;
+    border: 1px solid #888;
+    border-radius: 6px;
+    padding: 8px 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    z-index: 2100;
+}
+  
+.top-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
