@@ -4,108 +4,198 @@
     <title>{% block title %}Medicine Recommender{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   </head>
+
   <body>
     <div class="filter-container">
       <div class="filters">
-          <div class="filter-item">
-            <label for="price-filter">Sort by Price:</label>
-            <select id="price-filter" onchange="filterText()">
-              <option value="">None</option>
-              <option value="low">Low to High</option>
-              <option value="high">High to Low</option>
-            </select>
-          </div>
-          
-          <div class="filter-item">
-            <label for="rating-filter">Sort by User Rating:</label>
-            <select id="rating-filter" onchange="filterText()">
-              <option value="">None</option>
-              <option value="high">High to Low</option>
-              <option value="low">Low to High</option>
-            </select>
-          </div>
-          
-          <div class="filter-item">
-            <label for="allergy-filter">Filter Allergies/Conditions:</label>
-            <input type="text" id="allergy-filter" placeholder="e.g. penicillin" onkeyup="filterText()">
-          </div>
+        <div class="filter-item">
+          <label for="price-filter">Sort by Price:</label>
+          <select id="price-filter">
+            <option value="">None</option>
+            <option value="low">Low to High</option>
+            <option value="high">High to Low</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="rating-filter">Sort by User Rating:</label>
+          <select id="rating-filter">
+            <option value="">None</option>
+            <option value="high">High to Low</option>
+            <option value="low">Low to High</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="allergy-filter">Filter Allergies/Conditions:</label>
+          <input id="allergy-filter" placeholder="e.g. penicillin">
+        </div>
       </div>
     </div>
-    
+
     <div class="disclaimer">
       <p>Disclaimer: The information provided is for educational purposes only and not medical advice.</p>
     </div>
-    
+
     <div class="full-body-container">
       <div class="top-text">
         <div class="theme-color">
           <h1 id="theme-color">MosaicRX</h1>
         </div>
-        <h2 class="subtitle">Find Medications For You</h2> 
-        <div class="input-box" onclick="sendFocus()">
-          <img src="{{ url_for('static', filename='images/mag.png') }}" alt="search icon" />
-          <input placeholder="Enter any symptoms, conditions, diagnosis etc." id="filter-text-val" onkeyup="filterText()">
+
+        <h2 class="subtitle">Find Medications For You</h2>
+
+        <div class="input-box">
+          <input id="query-input"
+                 placeholder="Enter any symptoms, conditions, etc. and press enter!">
+          <img src="{{ url_for('static', filename='images/mag.png') }}"
+               id="search-btn" style="cursor:pointer" alt="search icon">
         </div>
       </div>
-      <div id="answer-box">
+
+      <div id="answer-box"></div>
+    </div>
+
+    <a id="how-it-works" href="#">How are results ranked?</a>
+
+    <div id="overlay">
+      <div id="modal">
+        <button id="close-btn">&times;</button>
+        <div id="modal-content"></div>
       </div>
     </div>
-    
+
     <script>
-      function answerBoxTemplate(name, uses, similarity, user_rating, price_info){
-        let price_display = "<strong>Price:</strong> Unknown, check with a local pharmacy!";
-        if (price_info && price_info.price && price_info.quantity){
-          price_display = `<strong>Price:</strong> ${price_info.price} ${price_info.quantity}`;
-        }
-        let user_display = "<strong>User Rating: N/A</strong>";
-        if (user_rating) {
-          user_display = `<strong>User Rating:</strong> ${user_rating}`;
-        }
-      
-        return `<div class="medicine-result">
-            <h3 class="medicine-name">${name}</h3>
-            <p class="medicine-uses"><strong>Uses:</strong> ${uses}</p>
-            <p class="medicine-similarity"><strong>Similarity Score:</strong> ${(similarity * 100).toFixed(2)}%</p>
-            <p class="medicine-rating">${user_display}</p>
-            <p class="medicine-price">${price_display}</p>
-            <hr class="custom-line">
+      function answerBoxTemplate(row){
+        const price = row.price_info && row.price_info.price
+            ? `<strong>Price:</strong> ${row.price_info.price} ${row.price_info.quantity}`
+            : "<strong>Price:</strong> Unknown, check with a local pharmacy!";
+        const rating  = row.user_rating ? `<strong>User Rating:</strong> ${row.user_rating}` : "";
+        const tagList = Array.isArray(row.tags) && row.tags.length ? row.tags.join(", ") : "—";
+        const encoded = encodeURIComponent(JSON.stringify(row));
+
+        return `
+        <div class="medicine-result">
+          <h3 class="medicine-name">${row.name}</h3>
+          <p><strong>Similarity:</strong> ${(row.similarity*100).toFixed(1)}%
+            <span class="sim-info" title="Click to see why">ⓘ</span>
+          </p>
+          <p class="medicine-uses"><strong>Uses:</strong> ${row.uses}</p>
+          <p class="medicine-rating">${rating}</p>
+          <p class="medicine-price">${price}</p>
+          <p class="tags"><strong>Tags:</strong> ${tagList}</p>
+
+          <button class="learn-btn" data-row="${encoded}" onclick="showDetail(this)">
+            Learn&nbsp;more…
+          </button>
+          <button class="learn-btn" data-row="${encoded}" onclick="showReviews(this)">
+            Reviews
+          </button>
+          <hr class="custom-line">
         </div>`;
       }
-      
-      function sendFocus(){
-          document.getElementById('filter-text-val').focus();
+
+      function showDetail(btn){
+        const row = JSON.parse(decodeURIComponent(btn.dataset.row));
+        const m   = document.getElementById("modal-content");
+        m.innerHTML = `
+          <h2>${row.name}</h2>
+          <p>${row.meta_description||""}</p>
+          <p><em>${row.drug_subtitle||""}</em></p>
+          <h3>Warnings</h3><p>${row.warnings||"—"}</p>
+          <h3>Before taking</h3><p>${row["before-taking"]||"—"}</p>
+          <h3>Side effects</h3><p>${row["side-effects"]||"—"}</p>`;
+        document.getElementById("overlay").style.display = "flex";
       }
-      
-      function filterText(){
-          document.getElementById("answer-box").innerHTML = "";
-          const queryVal = document.getElementById("filter-text-val").value;
-          const priceFilter = document.getElementById("price-filter").value;
-          const ratingFilter = document.getElementById("rating-filter").value;
-          const allergyFilter = document.getElementById("allergy-filter").value;
-      
-          const params = new URLSearchParams({
-              query: queryVal,
-              price: priceFilter,
-              rating: ratingFilter,
-              allergies: allergyFilter
+
+      function showReviews(btn){
+        const row     = JSON.parse(decodeURIComponent(btn.dataset.row));
+        const reviews = Array.isArray(row.user_reviews) ? row.user_reviews : [];
+        const items   = reviews.map(r=>`
+            <div class="review">
+              <p><strong>${r.reviewer||"Anon"}</strong> — ${r.date||""}</p>
+              <p class="rev-rating">Rating: ${r.rating||"N/A"}</p>
+              <p class="rev-comment">${r.comment||""}</p>
+            </div>`).join("<hr>");
+
+        const m = document.getElementById("modal-content");
+        m.innerHTML = `<h2>Patient reviews for ${row.name}</h2>${items||"<p>No reviews available.</p>"}`;
+        document.getElementById("overlay").style.display = "flex";
+      }
+
+      document.getElementById("close-btn").onclick =
+        () => { document.getElementById("overlay").style.display = "none"; };
+
+      function search(){
+        const box      = document.getElementById("answer-box");
+        box.innerHTML  = "";
+        const queryVal = document.getElementById("query-input").value.trim();
+        if(!queryVal) return;
+
+        const params = new URLSearchParams({
+          query: queryVal,
+          price: document.getElementById("price-filter").value,
+          rating: document.getElementById("rating-filter").value,
+          allergies: document.getElementById("allergy-filter").value
+        });
+
+        fetch("/recommend?" + params)
+          .then(r => r.json())
+          .then(data => {
+            box.innerHTML = data.length
+              ? data.map(answerBoxTemplate).join("")
+              : '<p class="no-result">No results found. Try entering more symptoms or different keywords!</p>';
           });
-      
-          console.log("Query Params:", params.toString());
-      
-          fetch("/recommend?" + params.toString())
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(row => {
-                    let tempDiv = document.createElement("div");
-                    tempDiv.innerHTML = answerBoxTemplate(row["name"], row["uses"], row["similarity"], row["user_rating"], row["price_info"]);
-                    document.getElementById("answer-box").appendChild(tempDiv);
-                });
-            });
       }
+
+      document.getElementById("search-btn").addEventListener("click", search);
+      document.getElementById("query-input").addEventListener("keydown", e => { if(e.key==="Enter") search(); });
+      document.getElementById("price-filter").addEventListener("change", search);
+      document.getElementById("rating-filter").addEventListener("change", search);
+      document.getElementById("allergy-filter").addEventListener("keydown", e => { if(e.key==="Enter") search(); });
+      document.getElementById("allergy-filter").addEventListener("blur", search);
+
+      document.addEventListener("click", e => {
+        if(!e.target.classList.contains("sim-info")) return;
+
+        document.querySelectorAll(".tooltip").forEach(t => t.remove());
+
+        const card = e.target.closest(".medicine-result");
+        const row  = JSON.parse(decodeURIComponent(card.querySelector(".learn-btn").dataset.row));
+
+        const tip = document.createElement("div");
+        tip.className = "tooltip";
+        tip.innerHTML = `
+          <strong>Why this result?</strong><br>
+          • Convert texts to vectors (TF-IDF + SVD).<br>
+          • Cosine similarity = ${ (row.similarity*100).toFixed(1) }%.<br>
+          • Higher % ⇒ more overlap in keywords and topics.`;
+        document.body.appendChild(tip);
+
+        const r = e.target.getBoundingClientRect();
+        tip.style.left = r.right + 8 + "px";
+        tip.style.top  = r.top   + "px";
+      }, false);
+
+      document.addEventListener("click", e => {
+        if(!e.target.classList.contains("sim-info"))
+          document.querySelectorAll(".tooltip").forEach(t => t.remove());
+      }, true);
+
+      document.getElementById("how-it-works").onclick = e => {
+        e.preventDefault();
+        document.getElementById("modal-content").innerHTML = `
+          <h2>How we rank medicines</h2>
+          <ol>
+            <li><strong>TF-IDF keyword match</strong> finds overlap with your query.</li>
+            <li><strong>SVD latent topics from user reviews </strong> capture deeper meaning.</li>
+            <li><strong>Similarity</strong> is computed based on both components using cosine similarity. </li>
+          </ol>
+          <p>Filters (price, rating, allergies) then reorder or remove items.</p>`;
+        document.getElementById("overlay").style.display = "flex";
+      };
     </script>
   </body>
 </html>

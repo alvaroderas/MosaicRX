@@ -4,7 +4,6 @@ from scipy.sparse import hstack, csr_matrix
 import numpy as np
 
 
-
 class Embeddings(TfidfVectorizer):
     def __init__(self, documents):
         super().__init__(max_features=5000, stop_words='english', max_df=0.9, min_df=5)
@@ -13,8 +12,6 @@ class Embeddings(TfidfVectorizer):
 
         self.term_document_matrix = self.generate_term_doc_matrix(documents)
         self.svd_matrix = self.singular_value_decomposition(documents)
-
-        # delete both matrixes above if this works
         self.document_embeddings = self.generate_document_embeddings()
 
     def generate_term_doc_matrix(self, documents):
@@ -49,3 +46,8 @@ class Embeddings(TfidfVectorizer):
         x_vec = self.transform(x)
         x_decomposed = self.svd_module.transform(x_vec).reshape(1, -1)
         return hstack([x_vec, csr_matrix(x_decomposed)])
+    
+    def top_svd_terms(self, latent_row, n=3):
+        w   = self.svd_module.components_.T @ latent_row
+        idx = w.argsort()[-n:][::-1]
+        return [self.get_feature_names_out()[i] for i in idx]

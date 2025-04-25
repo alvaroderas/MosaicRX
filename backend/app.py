@@ -22,7 +22,7 @@ data_loader = DataLoader(json_file=json_file_path)
 documents = data_loader.dataset()
 
 embeddings = Embeddings(documents=documents)
-clusterer = Clustering(document_embeddings=embeddings.get_document_embeddings())
+clusterer = Clustering(doc_emb=embeddings.get_document_embeddings())
 
 recommendation_system = Recommender(embeddings=embeddings, data_loader=data_loader, clusterer=clusterer)
 
@@ -50,6 +50,13 @@ def recommend_search():
     
     recommendations = recommendations.to_dict(orient='records')
     return jsonify(recommendations)
+
+# @app.post("/vote")
+# def vote():
+#     data = request.get_json()
+#     register_vote((data["name"]), int(data["delta"]))
+#     return "", 204
+
    
 if 'DB_NAME' not in os.environ:
     app.run(debug=True, host="0.0.0.0", port=5000)
