@@ -62,20 +62,20 @@
 
 .custom-line {
     border: none;
-    border-top: 1.5px solid #9b9b9b; 
+    border-top: 3px solid #F05A24; 
     margin: 10px 0;
-    width: 90%;
+    width: 100%;
 }
 
 .medicine-name {
     font-family: 'Baloo 2', cursive;
-    font-size: 25px; 
+    font-size: 23px; 
     font-weight: bold; 
-    color: #ff8f8e; 
-    border: 3px solid #ffaaa9;
+    color: #F05A24; 
+    border: 3px solid #fcc435;
     border-radius: 8px;
-    padding: 5px;
-    background-color: #f2f24b;
+    padding: 4px;
+    background-color: #FCD46C;
     display: inline-block;
     margin-bottom: 2px;
 }
@@ -89,7 +89,7 @@
     top: 0;
     left: 0;
     width: 100%; 
-    background-color: #dbdbdb; 
+    background-color: #e1e1e1; 
     color: #3a3a3a; 
     text-align: center; 
     padding: 0.5px; 
@@ -112,20 +112,20 @@ body {
     font-family: 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #FFF7E9; 
 }
 
 .filter-container {
     position: fixed; 
     top: 70px; 
-    right: 12.5px; 
+    right: 14px; 
     z-index: 900; 
     pointer-events: auto; 
-    background-color: #ffffff; 
-    border: 2px solid #F1D648; 
+    background-color: #FFF7E9; 
+    border: 5px solid #F1D648; 
     border-radius: 10px; 
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    width: 250px; 
+    padding: 15px;
+    width: 200px; 
 }
 
 .filters {
@@ -150,25 +150,30 @@ body {
 
 .filters select,
 .filters input {
-    padding: 8px 10px; 
+    padding: 5px 8px; 
+    font-family: 'Baloo 2', cursive;
     font-size: 14px;
-    border: 1px solid #F1D648; 
+    border: 3px solid #F1D648; 
     border-radius: 5px; 
     width: 100%; 
-    box-shadow: inset 0 1px 3px #F1D648; 
+    background-color: #FFF7E9; /* Yellow background for the dropdown */
+    color: #eb815a; /* Yellow text color */
+}
+
+.filters select option {
+    background-color: #FFF7E9; 
+    color: #F05A24; 
 }
 
 .filters select:hover,
 .filters input:hover {
     border-color: #F05A24; 
-    box-shadow: 0 0 5px #F1D648;
 }
 
 .filters select:focus,
 .filters input:focus {
     outline: none; 
     border-color: #F1D648; 
-    box-shadow: 0 0 8px #F1D648;
 }
 
 .image-container {
@@ -230,9 +235,9 @@ body {
   
 #how-it-works {
     position:fixed;
-    bottom:12px;
-    left:12px;
-    font-size:26px;
+    bottom:17px;
+    left:22px;
+    font-size:24px;
     font-family: 'Baloo 2', cursive;
     font-weight:bold;
     color:#F05A24;
@@ -265,7 +270,7 @@ body {
 .input-box {
     border-radius: 50px;
     border: 3px solid #F05A24;
-    background-color: rgba(245, 93, 38, 0.3); /* Set the same background color */
+    background-color: rgba(245, 93, 38, 0.18); /* Set the same background color */
     display: flex;
     align-items: center;
 
