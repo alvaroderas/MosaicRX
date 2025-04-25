@@ -63,7 +63,7 @@
 .custom-line {
     border: none;
     height: 4px;
-    background: linear-gradient(to right, #F05A24, #f0d93f, #F05A24); /* Gradient colors */
+    background: linear-gradient(to right, #F05A24, #f0d93f, #F05A24);  
     border-radius: 3px; 
     margin: 10px 0;
     width: 100%;
@@ -287,7 +287,7 @@ body {
     border: none;
     outline: none;
     background-color: rgba(240, 90, 36, 0.01); 
-    color: #333; /* Text color */
+    color: #333; 
 }
 
 .input-box input::placeholder {
