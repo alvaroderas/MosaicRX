@@ -42,7 +42,7 @@
     font-weight: 900; 
     color: #F05A24; 
     text-align: center; 
-    margin: 15px 0; 
+    margin: 15px 0 5px 0; 
 }
 
 .google-colors{
@@ -110,7 +110,7 @@
     font-family: 'Roboto', sans-serif; 
     font-size: 20px; 
     font-weight: bold; 
-    color: #4939da; 
+    color: #F9AFAE; 
 }
 
 .full-body-container {
@@ -134,7 +134,7 @@
 
 .subtitle {
     font-family: 'Baloo 2', cursive; 
-    font-size: 28px; 
+    font-size: 36px; 
     font-weight: 2000; 
     color: #F1D648; 
     text-align: center; 
@@ -142,18 +142,17 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
 }
 
 .filter-container {
-    position: fixed;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    z-index: 2000;
-    pointer-events: auto;
+    position: fixed; /* Fix the position relative to the viewport */
+    top: 0px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    z-index: 2000; /* Ensure it appears above other elements */
+    pointer-events: auto; /* Allow interaction */
 }
 
 
