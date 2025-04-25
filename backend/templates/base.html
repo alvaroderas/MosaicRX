@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
   </head>
 
   <body>
@@ -37,6 +39,9 @@
 
     <div class="disclaimer">
       <p>Disclaimer: The information provided is for educational purposes only and not medical advice.</p>
+    </div>
+    <div class="image-container" onclick="sendFocus()">
+      <img src="{{ url_for('static', filename='images/drugs.png') }}" alt="Logo" class="upper-left-image">
     </div>
 
     <div class="full-body-container">
