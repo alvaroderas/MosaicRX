@@ -257,7 +257,7 @@ body {
     font-weight:bold;
     color:#F05A24;
     cursor:pointer;
-    z-index:2100;
+    z-index:900;
 }
   
 .tooltip {
