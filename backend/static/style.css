@@ -18,7 +18,7 @@
     font-weight: 900; 
     color: #F05A24; 
     text-align: center; 
-    margin: 15px 0 1px 0; 
+    margin: 15px 0 0px 0; 
 }
 
 .google-colors{
@@ -62,7 +62,9 @@
 
 .custom-line {
     border: none;
-    border-top: 3px solid #F05A24; 
+    height: 4px;
+    background: linear-gradient(to right, #F05A24, #f0d93f, #F05A24); /* Gradient colors */
+    border-radius: 3px; 
     margin: 10px 0;
     width: 100%;
 }
@@ -156,8 +158,8 @@ body {
     border: 3px solid #F1D648; 
     border-radius: 5px; 
     width: 100%; 
-    background-color: #FFF7E9; /* Yellow background for the dropdown */
-    color: #eb815a; /* Yellow text color */
+    background-color: #FFF7E9; 
+    color: #eb815a;
 }
 
 .filters select option {
@@ -270,7 +272,7 @@ body {
 .input-box {
     border-radius: 50px;
     border: 3px solid #F05A24;
-    background-color: rgba(245, 93, 38, 0.18); /* Set the same background color */
+    background-color: rgba(245, 93, 38, 0.18); 
     display: flex;
     align-items: center;
 
@@ -284,19 +286,27 @@ body {
     font-size: 16px;
     border: none;
     outline: none;
-    background-color: rgba(240, 90, 36, 0.01); /* Match the input box background color */
+    background-color: rgba(240, 90, 36, 0.01); 
     color: #333; /* Text color */
 }
 
 .input-box input::placeholder {
-    font-family: 'Quicksand', sans-serif; /* Use the desired font */
-    font-size: 16px; /* Adjust the font size */
-    color: #333; /* Match the text color */
-    font-style: italic; /* Optional: Make it italic */
-    background-color: transparent !important; /* Ensure no background for the placeholder */
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    color: #333;
+    font-style: italic;
+    background-color: transparent !important; 
 }
   
 #search-btn {
     cursor:pointer;
+}
+
+.separator-line {
+    display: block;
+    margin: 2px auto; 
+    width: 80%; 
+    max-width: 900px; 
+    height: auto;
 }
   
