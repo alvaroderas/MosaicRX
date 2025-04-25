@@ -33,16 +33,6 @@
     margin-right: 3px;
 }
 
-.input-box{
-    border-radius: 50px;
-    border:3px solid #F05A24;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    padding:12px;
-    width: 600px;
-}
-
 .input-box img{
     height: 20px;
     width:20px;
@@ -54,13 +44,8 @@
     align-items: center;
 }
 
-.input-box input{
-    width: 100%;
-    margin-left: 10px;
-    font-size: 16px;
-    border: none;
-    outline: 0;
-}
+
+
 
 #answer-box{
     width: 600px;
@@ -186,11 +171,6 @@ body {
     box-shadow: 0 0 8px #F1D648;
 }
 
-.theme-color h1 {
-    margin: 0;
-    color: #4a90e2;
-}
-
 .image-container {
     position: fixed; 
     top: 100px;
@@ -230,18 +210,18 @@ body {
     position:absolute;
     top:10px;
     right:16px;
-    font-size:28px;
+    font-size:38px;
     background:none;
     border:none;
     cursor:pointer;
-    color:#37489b;
+    color:#F05A24;
 }
   
 .learn-btn {
     margin-top:8px;
     padding:4px 14px;
     border-radius:4px;
-    border:1px solid #050000;
+    border:1px solid #F05A24;
     background:#ffaaa9;
     color:#FFF;
     cursor:pointer;
@@ -283,12 +263,32 @@ body {
 }
   
 .input-box {
-    border-radius:50px;
-    border:3px solid #F05A24;
-    display:flex;
-    align-items:center;
-    padding:12px;
-    width:600px;
+    border-radius: 50px;
+    border: 3px solid #F05A24;
+    background-color: rgba(245, 93, 38, 0.3); /* Set the same background color */
+    display: flex;
+    align-items: center;
+
+    padding: 12px;
+    width: 600px;
+}
+
+.input-box input {
+    width: 100%;
+    margin-left: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: rgba(240, 90, 36, 0.01); /* Match the input box background color */
+    color: #333; /* Text color */
+}
+
+.input-box input::placeholder {
+    font-family: 'Quicksand', sans-serif; /* Use the desired font */
+    font-size: 16px; /* Adjust the font size */
+    color: #333; /* Match the text color */
+    font-style: italic; /* Optional: Make it italic */
+    background-color: transparent !important; /* Ensure no background for the placeholder */
 }
   
 #search-btn {
