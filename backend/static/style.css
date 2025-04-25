@@ -12,37 +12,13 @@
     flex-direction: column;
 }
 
-#google-c{
-    color:#4285F4;
-}
-
-#google-s{
-    color:#DB4437;
-}
-
-#google-4{
-    color:	#F4B400;
-}
-
-#google-3{
-    color:	#4285F4;
-}
-
-#google-0-1{
-    color:	#0F9D58;
-}
-
-#google-0-2{
-    color:#DB4437;
-}
-
 #theme-color {
     font-family: 'Baloo 2', cursive;
     font-size: 100px; 
     font-weight: 900; 
     color: #F05A24; 
     text-align: center; 
-    margin: 15px 0 5px 0; 
+    margin: 15px 0 1px 0; 
 }
 
 .google-colors{
@@ -59,7 +35,7 @@
 
 .input-box{
     border-radius: 50px;
-    border:2px solid black;
+    border:3px solid #F05A24;
     display: flex;
     align-items: center;
     margin-top: 10px;
@@ -87,8 +63,8 @@
 }
 
 #answer-box{
-    width: 700px;
-    margin-top:50px; 
+    width: 600px;
+    margin-top:10px; 
 }
 
 .episode-title{
@@ -107,10 +83,16 @@
 }
 
 .medicine-name {
-    font-family: 'Roboto', sans-serif; 
-    font-size: 20px; 
+    font-family: 'Baloo 2', cursive;
+    font-size: 25px; 
     font-weight: bold; 
     color: #ff8f8e; 
+    border: 3px solid #ffaaa9; /* Add a border around the text */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    padding: 5px; /* Add space between the text and the border */
+    background-color: #f2f24b; /* Optional: Add a background color */
+    display: inline-block; /* Ensure the box wraps tightly around the text */
+    margin-bottom: 2px; /* Adjust this value to control spacing */
 }
 
 .full-body-container {
@@ -122,7 +104,7 @@
     top: 0;
     left: 0;
     width: 100%; 
-    background-color: #c1c1c1; 
+    background-color: #dbdbdb; 
     color: #3a3a3a; 
     text-align: center; 
     padding: 0.5px; 
@@ -134,7 +116,7 @@
 
 .subtitle {
     font-family: 'Baloo 2', cursive; 
-    font-size: 36px; 
+    font-size: 42px; 
     font-weight: 2000; 
     color: #F1D648; 
     text-align: center; 
@@ -212,11 +194,11 @@ body {
 .image-container {
     position: fixed; 
     top: 100px;
-    left: 30px; 
+    left: 40px; 
     z-index: 2000; 
 }
 
 .image-container img {
-    height: 200px; 
+    height: 220px; 
     width: auto;
 }
