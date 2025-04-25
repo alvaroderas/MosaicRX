@@ -48,6 +48,6 @@ class Embeddings(TfidfVectorizer):
         return hstack([x_vec, csr_matrix(x_decomposed)])
     
     def top_svd_terms(self, latent_row, n=3):
-        w   = self.svd_module.components_.T @ latent_row
+        w = self.svd_module.components_.T @ latent_row
         idx = w.argsort()[-n:][::-1]
         return [self.get_feature_names_out()[i] for i in idx]
