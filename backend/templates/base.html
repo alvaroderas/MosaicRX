@@ -3,12 +3,10 @@
   <head>
     <title>{% block title %}Medicine Recommender{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
   </head>
-
   <body>
     <div class="filter-container">
       <div class="filters">
@@ -20,7 +18,6 @@
             <option value="high">High to Low</option>
           </select>
         </div>
-
         <div class="filter-item">
           <label for="rating-filter">Sort by User Rating:</label>
           <select id="rating-filter">
@@ -29,7 +26,6 @@
             <option value="low">Low to High</option>
           </select>
         </div>
-
         <div class="filter-item">
           <label for="allergy-filter">Filter Allergies/Conditions:</label>
           <input id="allergy-filter" placeholder="e.g. penicillin">
@@ -40,26 +36,20 @@
     <div class="disclaimer">
       <p>Disclaimer: The information provided is for educational purposes only and not medical advice.</p>
     </div>
-    <div class="image-container" onclick="sendFocus()">
-      <img src="{{ url_for('static', filename='images/drugs.png') }}" alt="Logo" class="upper-left-image">
+
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='images/drugs.png') }}" alt="logo">
     </div>
 
     <div class="full-body-container">
       <div class="top-text">
-        <div class="theme-color">
-          <h1 id="theme-color">MosaicRX</h1>
-        </div>
-
+        <h1 id="theme-color">MosaicRX</h1>
         <h2 class="subtitle">Find Medications For You</h2>
-
         <div class="input-box">
-          <input id="query-input"
-                 placeholder="Enter any symptoms, conditions, etc. and press enter!">
-          <img src="{{ url_for('static', filename='images/mag.png') }}"
-               id="search-btn" style="cursor:pointer" alt="search icon">
+          <input id="query-input" placeholder="Enter symptoms, conditions, etc. and press enter!">
+          <img src="{{ url_for('static', filename='images/mag.png') }}" id="search-btn" alt="search">
         </div>
       </div>
-
       <div id="answer-box"></div>
     </div>
 
@@ -67,139 +57,159 @@
 
     <div id="overlay">
       <div id="modal">
-        <button id="close-btn">&times;</button>
+        <button id="close-btn" aria-label="close">&times;</button>
         <div id="modal-content"></div>
       </div>
     </div>
 
     <script>
-      function answerBoxTemplate(row){
+      const $ = id => document.getElementById(id);
+
+      function answerBoxTemplate(row) {
         const price = row.price_info && row.price_info.price
-            ? `<strong>Price:</strong> ${row.price_info.price} ${row.price_info.quantity}`
-            : "<strong>Price:</strong> Unknown, check with a local pharmacy!";
-        const rating  = row.user_rating ? `<strong>User Rating:</strong> ${row.user_rating}` : "";
-        const tagList = Array.isArray(row.tags) && row.tags.length ? row.tags.join(", ") : "—";
+          ? `<strong>Price:</strong> ${row.price_info.price} ${row.price_info.quantity}`
+          : "<strong>Price:</strong> Unknown, check with a local pharmacy!";
+        const rating = row.user_rating
+          ? `<strong>User Rating:</strong> ${row.user_rating}`
+          : "";
+        const tags = Array.isArray(row.tags) && row.tags.length
+          ? row.tags.join(", ")
+          : "—";
         const encoded = encodeURIComponent(JSON.stringify(row));
 
         return `
         <div class="medicine-result">
           <h3 class="medicine-name">${row.name}</h3>
-          <p><strong>Similarity:</strong> ${(row.similarity*100).toFixed(1)}%
-            <span class="sim-info" title="Click to see why">ⓘ</span>
+          <p>
+            <strong>Similarity:</strong> ${(row.similarity * 100).toFixed(1)}%
+            <span class="sim-info" title="Why this result?">ⓘ</span>
           </p>
-          <p class="medicine-uses"><strong>Uses:</strong> ${row.uses}</p>
-          <p class="medicine-rating">${rating}</p>
-          <p class="medicine-price">${price}</p>
-          <p class="tags"><strong>Tags:</strong> ${tagList}</p>
-
-          <button class="learn-btn" data-row="${encoded}" onclick="showDetail(this)">
-            Learn&nbsp;more…
-          </button>
-          <button class="learn-btn" data-row="${encoded}" onclick="showReviews(this)">
-            Reviews
-          </button>
+          <p><strong>Uses:</strong> ${row.uses}</p>
+          <p>${rating}</p>
+          <p>${price}</p>
+          <p class="tags"><strong>Tags:</strong> ${tags}</p>
+          <button class="learn-btn" data-row="${encoded}" onclick="showDetail(this)">Learn more…</button>
+          <button class="learn-btn" data-row="${encoded}" onclick="showReviews(this)">Reviews</button>
           <hr class="custom-line">
         </div>`;
       }
 
-      function showDetail(btn){
+      function openOverlay() {
+        document.querySelectorAll(".tooltip").forEach(t => t.remove());
+        $("overlay").style.display = "flex";
+      }
+
+      function showDetail(btn) {
         const row = JSON.parse(decodeURIComponent(btn.dataset.row));
-        const m   = document.getElementById("modal-content");
-        m.innerHTML = `
+        $("modal-content").innerHTML = `
           <h2>${row.name}</h2>
-          <p>${row.meta_description||""}</p>
-          <p><em>${row.drug_subtitle||""}</em></p>
-          <h3>Warnings</h3><p>${row.warnings||"—"}</p>
-          <h3>Before taking</h3><p>${row["before-taking"]||"—"}</p>
-          <h3>Side effects</h3><p>${row["side-effects"]||"—"}</p>`;
-        document.getElementById("overlay").style.display = "flex";
+          <p>${row.meta_description || ""}</p>
+          <p><em>${row.drug_subtitle || ""}</em></p>
+          <h3>Warnings</h3><p>${row.warnings || "—"}</p>
+          <h3>Before taking</h3><p>${row["before-taking"] || "—"}</p>
+          <h3>Side effects</h3><p>${row["side-effects"] || "—"}</p>`;
+        openOverlay();
       }
 
-      function showReviews(btn){
-        const row     = JSON.parse(decodeURIComponent(btn.dataset.row));
+      function showReviews(btn) {
+        const row = JSON.parse(decodeURIComponent(btn.dataset.row));
         const reviews = Array.isArray(row.user_reviews) ? row.user_reviews : [];
-        const items   = reviews.map(r=>`
-            <div class="review">
-              <p><strong>${r.reviewer||"Anon"}</strong> — ${r.date||""}</p>
-              <p class="rev-rating">Rating: ${r.rating||"N/A"}</p>
-              <p class="rev-comment">${r.comment||""}</p>
-            </div>`).join("<hr>");
-
-        const m = document.getElementById("modal-content");
-        m.innerHTML = `<h2>Patient reviews for ${row.name}</h2>${items||"<p>No reviews available.</p>"}`;
-        document.getElementById("overlay").style.display = "flex";
+        const body = reviews.map(r => `
+          <div class="review">
+            <p><strong>${r.reviewer || "Anon"}</strong> — ${r.date || ""}</p>
+            <p>Rating: ${r.rating || "N/A"}</p>
+            <p>${r.comment || ""}</p>
+          </div>`).join("<hr>");
+        $("modal-content").innerHTML = `
+          <h2>Patient reviews for ${row.name}</h2>
+          ${body || "<p>No reviews available.</p>"}`;
+        openOverlay();
       }
 
-      document.getElementById("close-btn").onclick =
-        () => { document.getElementById("overlay").style.display = "none"; };
+      $("close-btn").onclick = () => { $("overlay").style.display = "none"; };
 
-      function search(){
-        const box      = document.getElementById("answer-box");
-        box.innerHTML  = "";
-        const queryVal = document.getElementById("query-input").value.trim();
-        if(!queryVal) return;
-
+      function search() {
+        const q = $("query-input").value.trim();
+        if (!q) return;
         const params = new URLSearchParams({
-          query: queryVal,
-          price: document.getElementById("price-filter").value,
-          rating: document.getElementById("rating-filter").value,
-          allergies: document.getElementById("allergy-filter").value
+          query: q,
+          price: $("price-filter").value,
+          rating: $("rating-filter").value,
+          allergies: $("allergy-filter").value
         });
-
         fetch("/recommend?" + params)
           .then(r => r.json())
           .then(data => {
-            box.innerHTML = data.length
+            $("answer-box").innerHTML = data.length
               ? data.map(answerBoxTemplate).join("")
-              : '<p class="no-result">No results found. Try entering more symptoms or different keywords!</p>';
+              : '<p class="no-result">No results found. Try entering more related symptoms or different keywords!</p>';
           });
       }
 
-      document.getElementById("search-btn").addEventListener("click", search);
-      document.getElementById("query-input").addEventListener("keydown", e => { if(e.key==="Enter") search(); });
-      document.getElementById("price-filter").addEventListener("change", search);
-      document.getElementById("rating-filter").addEventListener("change", search);
-      document.getElementById("allergy-filter").addEventListener("keydown", e => { if(e.key==="Enter") search(); });
-      document.getElementById("allergy-filter").addEventListener("blur", search);
+      $("search-btn").onclick = search;
+      $("query-input").addEventListener("keydown", e => { if (e.key === "Enter") search(); });
+      ["price-filter", "rating-filter"].forEach(id => $(id).addEventListener("change", search));
+      $("allergy-filter").addEventListener("keydown", e => { if (e.key === "Enter") search(); });
+      $("allergy-filter").addEventListener("blur", search);
 
-      document.addEventListener("click", e => {
-        if(!e.target.classList.contains("sim-info")) return;
+      let currentTip = null;
+      let currentIcon = null;
 
+      function placeTip() {
+        if (!currentTip || !currentIcon) return;
+        const r = currentIcon.getBoundingClientRect();
+        const top = window.scrollY + r.top;
+        const left = window.scrollX + r.right + 8;
+        currentTip.style.top = `${top}px`;
+        currentTip.style.left = `${left}px`;
+      }
+
+      function showTooltip(e) {
+        const icon = e.target.closest(".sim-info");
+        if (!icon) return;
         document.querySelectorAll(".tooltip").forEach(t => t.remove());
-
-        const card = e.target.closest(".medicine-result");
-        const row  = JSON.parse(decodeURIComponent(card.querySelector(".learn-btn").dataset.row));
-
+        const card = icon.closest(".medicine-result");
+        const row = JSON.parse(decodeURIComponent(card.querySelector(".learn-btn").dataset.row));
         const tip = document.createElement("div");
         tip.className = "tooltip";
         tip.innerHTML = `
           <strong>Why this result?</strong><br>
           • Convert texts to vectors (TF-IDF + SVD).<br>
-          • Cosine similarity = ${ (row.similarity*100).toFixed(1) }%.<br>
+          • Cosine similarity = ${(row.similarity * 100).toFixed(1)}%.<br>
           • Higher % ⇒ more overlap in keywords and topics.`;
         document.body.appendChild(tip);
+        currentIcon = icon;
+        currentTip = tip;
+        placeTip();
+      }
 
-        const r = e.target.getBoundingClientRect();
-        tip.style.left = r.right + 8 + "px";
-        tip.style.top  = r.top   + "px";
-      }, false);
+      function hideTooltip(e) {
+        if (e.relatedTarget && e.relatedTarget.closest(".tooltip")) return;
+        document.querySelectorAll(".tooltip").forEach(t => t.remove());
+        currentTip = currentIcon = null;
+      }
+
+      document.addEventListener("mouseover", showTooltip);
+      document.addEventListener("mouseout", hideTooltip);
+      window.addEventListener("scroll", placeTip, { passive: true });
+      window.addEventListener("resize", placeTip);
 
       document.addEventListener("click", e => {
-        if(!e.target.classList.contains("sim-info"))
+        if (!e.target.classList.contains("sim-info"))
           document.querySelectorAll(".tooltip").forEach(t => t.remove());
       }, true);
 
-      document.getElementById("how-it-works").onclick = e => {
+      $("how-it-works").onclick = e => {
         e.preventDefault();
-        document.getElementById("modal-content").innerHTML = `
+        $("modal-content").innerHTML = `
           <h2>How we rank medicines</h2>
           <ol>
             <li><strong>TF-IDF keyword match</strong> finds overlap with your query.</li>
             <li><strong>SVD latent topics from user reviews </strong> capture deeper meaning.</li>
-            <li><strong>Similarity</strong> is computed based on both components using cosine similarity. </li>
+            <li><strong>Similarity</strong> is computed based on both components using cosine similarity.</li>
           </ol>
           <p>Filters (price, rating, allergies) then reorder or remove items.</p>`;
-        document.getElementById("overlay").style.display = "flex";
+        openOverlay();
       };
     </script>
   </body>
